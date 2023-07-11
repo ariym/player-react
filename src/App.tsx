@@ -1,34 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { useEffect, useState } from 'react'
+import FileBrowser from './FileBrowser'
+import Player from './Player'
+import { fetchDirectoryTree } from './api'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+
+const DEFAULT_PATH = "/users/shared";
+
+
+export default function App() {
+  const [url, updateUrl] = useState(DEFAULT_PATH);
+  const [dirTree, udpateDirTree]: [any, any] = useState([]);
+
+  const updateTree = async (newPath: string) => {
+    const res = await fetchDirectoryTree(newPath);
+    udpateDirTree(res);
+  }
+
+  const handleSubmit = (e:any) =>{
+    e.preventDefault();
+    updateTree(url)
+  }
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <h1 className="text-4xl">Player</h1>
+
+      <FileBrowser
+        dirTree={dirTree}
+        onSelectPath={(chosenPath: string) => updateTree(chosenPath)}
+      />
+
+      <Player url={url} />
+
+      <form onSubmit={handleSubmit}>
+        <input
+          className="border-2 border-black"
+          value={url}
+          onChange={(e: any) => updateUrl(e.target.value)}
+        />
+        <input className="form-button" type="submit"/>
+      </form>
+
     </div>
   )
 }
-
-export default App
