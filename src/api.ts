@@ -1,6 +1,4 @@
-// const BASE_URL = "http://localhost:3000/"
-// const BASE_URL = "http://192.168.1.22:3000/"; // fios 70th
-const BASE_URL = "http://192.168.1.152:3000/"; // house
+const BASE_URL = import.meta.env.BASE_API_URL
 
 export async function getVideoData(videoPath: string): Promise<string[]> {
   return await fetch(`${BASE_URL}video-data?videoPath=${encodeURI(videoPath)}`, {
