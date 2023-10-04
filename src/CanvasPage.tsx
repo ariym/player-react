@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { BASE_URL } from './api'
-// const BASE_URL = import.meta.env.VITE_BASE_API_URL
 
 export default function Player({ videoPath }: { videoPath: any }) {
   const [url, setUrl]: [any, any] = useState(null);
@@ -14,13 +13,14 @@ export default function Player({ videoPath }: { videoPath: any }) {
   return (
     <>
       <ReactPlayer playing={true} controls={true} url={url} muted={true} />
+
       <canvas style={styles.canvas}></canvas>
+
     </>
   )
 }
 
-
-const styles = {
+const styles:any = {
   canvas: {
     position: "absolute",
     top: 0,

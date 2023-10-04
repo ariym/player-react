@@ -1,19 +1,22 @@
-import { useState } from 'react'
-import Player from './BrowserPlayer'
-// import Player from './CanvasPlayer'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import BrowserPage from './BrowserPage'
+import CanvasPage from './CanvasPage'
 
 const videoPath = "/Users/ari/Desktop/oClip/council_2023-03-23/VIDEO/NYCC-PV-250-14_230323-103916.mp4"
 
 export default function App() {
-
   return (
-    <div className="App">
+    <BrowserRouter basename="/">
 
-      <h1 className="text-2xl">Player</h1>
+      <Routes>
 
-      <Player />
-      {/* <Player videoPath={videoPath} /> */}
+        <Route path="/" element={<BrowserPage/>} />
+        
+        <Route path="/canvas" element={<CanvasPage videoPath={videoPath} />}  />
 
-    </div>
-  )
+      </Routes>
+
+    </BrowserRouter>
+  );
 }
