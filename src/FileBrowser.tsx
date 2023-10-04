@@ -51,7 +51,11 @@ export default function FileBrowser({ dirTree, onSelectPath }: TFileBrowser) {
   return (
     <div>
       {/* replace button below with a breadcrumb */}
-      <button type="button" className="rounded" onClick={() => onSelectPath(parentDir.location)}>Up Directory: <span>{parentDir.name}</span></button>
+      <button
+        type="button"
+        className="rounded"
+        onClick={() => onSelectPath(parentDir.location)}
+      >Up Directory: <span>{parentDir.name}</span></button>
       <ul>
         {TreeItems}
       </ul>
