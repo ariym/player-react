@@ -1,47 +1,18 @@
-import { useEffect, useState } from 'react'
-import FileBrowser from './FileBrowser'
-import Player from './Player'
-import { fetchDirectoryTree } from './api'
-import './App.css'
+import { useState } from 'react'
+import Player from './BrowserPlayer'
+// import Player from './CanvasPlayer'
 
-
-const DEFAULT_PATH = "/users/shared";
-
+const videoPath = "/Users/ari/Desktop/oClip/council_2023-03-23/VIDEO/NYCC-PV-250-14_230323-103916.mp4"
 
 export default function App() {
-  const [url, updateUrl] = useState(DEFAULT_PATH);
-  const [dirTree, udpateDirTree]: [any, any] = useState([]);
-
-  const updateTree = async (newPath: string) => {
-    const res = await fetchDirectoryTree(newPath);
-    udpateDirTree(res);
-  }
-
-  const handleSubmit = (e:any) =>{
-    e.preventDefault();
-    updateTree(url)
-  }
 
   return (
     <div className="App">
 
-      <h1 className="text-4xl">Player</h1>
+      <h1 className="text-2xl">Player</h1>
 
-      <FileBrowser
-        dirTree={dirTree}
-        onSelectPath={(chosenPath: string) => updateTree(chosenPath)}
-      />
-
-      <Player url={url} />
-
-      <form onSubmit={handleSubmit}>
-        <input
-          className="border-2 border-black"
-          value={url}
-          onChange={(e: any) => updateUrl(e.target.value)}
-        />
-        <input className="form-button" type="submit"/>
-      </form>
+      <Player />
+      {/* <Player videoPath={videoPath} /> */}
 
     </div>
   )
