@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react'
 import ReactPlayer from 'react-player'
 
-import './App.css'
-import { BASE_URL } from './api'
+import { BASE_URL } from '@/api'
 
 export default function Player({ url, seekToTs }: { url: any, seekToTs: any }) {
   const ref:any = useRef(null);

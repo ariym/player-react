@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
-import FileBrowser from './FileBrowser'
-import Player from './Player'
+import { useState } from 'react'
+import FileBrowser from '@/components/FileBrowser'
+import Player from '@/components/Player'
 import { fetchDirectoryTree } from './api'
-import './App.css'
 
 
 const DEFAULT_PATH = "/users/shared";

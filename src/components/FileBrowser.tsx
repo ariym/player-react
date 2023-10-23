@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import './App.css'
 type TFileBrowser = { dirTree: any, onSelectPath: any }
 
 
