@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import ReactPlayer from 'react-player'
-import { BASE_URL } from './api'
+import { BASE_URL } from '../api'
 
 export default function Player({ videoPath }: { videoPath: any }) {
   const [url, setUrl]: [any, any] = useState(null);
