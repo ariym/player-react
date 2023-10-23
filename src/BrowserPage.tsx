@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import FileBrowser from '@/components/FileBrowser'
-import Player from '@/components/Player'
+import FileBrowser from '@/_components/FileBrowser'
+import Player from '@/_components/Player'
 import { fetchDirectoryTree } from './api'
 
 
