@@ -1,29 +1,57 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
-
 import { BASE_URL } from '@/api'
 
-export default function Player({ url, seekToTs }: { url: any, seekToTs: any }) {
-  const ref:any = useRef(null);
+type FilePlayer = { 
+  videoPath?: string,
+  seekToTs?: number
+}
 
-  const reactPlayerConfig = {
-    // file: {
-    // tracks: [
-    // { kind: 'subtitles', src: 'subs/subtitles.en.vtt', srcLang: 'en', default: true },
-    // ]
-    // }
-  }
+export default function FilePlayer({ videoPath, seekToTs }: FilePlayer) {
+
+  const ref: any = useRef(null);
+
+  const [resourceURL, updateResourceURL]: any = useState(null);
+  const [URL, updateURLParams]: any = useState(null)
 
   useEffect(() => {
-    ref.current.seekTo(seekToTs)
+    if(videoPath){
+      console.log("updateResourceURL")
+      // updateResourceURL(`${BASE_URL}/video-ffmpeg/bus.mp4`)
+      updateResourceURL(`${BASE_URL}/streamV2?${encodeURI(videoPath)}`);
+    }
+  }, [videoPath])
+
+  // seeking - LOCAL
+  useEffect(() => {
+    if(Number(seekToTs) < 0){
+      ref.current.seekTo(seekToTs)
+    }
   }, [seekToTs]);
 
+  useEffect(()=>{
+    if(videoPath && Number(seekToTs) < 0) {
+      console.log("updateURLParams")
+      // seeking - SERVER clip loading
+
+      updateURLParams(`${resourceURL}&start=${seekToTs}`);
+    } else if(videoPath){
+
+      updateURLParams()
+
+    }
+  }, [videoPath, seekToTs]);
+
+  // if(!URL) return null;
   return (
+    <div className="border">
+
     <ReactPlayer
-      url={`${BASE_URL}/streamV2?videoPath=${encodeURI(url)}`}
-      config={reactPlayerConfig}
+      url={URL ? URL : null}
+      // config={reactPlayerConfig}
       controls={true}
       ref={ref}
     />
+    </div>
   )
 }
