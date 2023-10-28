@@ -1,26 +1,32 @@
 import { useState } from 'react'
-import FileBrowser from '@/_components/FileBrowser'
-import Player from '@/_components/Player'
+
 import { fetchDirectoryTree } from './api'
 
+// components
+import FileExplorer from '@/_components/FileExplorer'
+import FilePlayer from '@/_components/FilePlayer'
 
-const DEFAULT_PATH = "/users/shared";
+export type BrowserPage = {
+  defaultDirPath?: string
+  defaultVideoPath?: string
+};
 
+export default function FilePlayerPage({ defaultDirPath="/", defaultVideoPath }: BrowserPage) {
 
-export default function App() {
-  const [url, updateUrl] = useState(DEFAULT_PATH);
-  const [videoUrl, updateVideoUrl] = useState(DEFAULT_PATH);
+  const [url, updateUrl] = useState(defaultDirPath);
+  const [videoPath, updateVideoPath] = useState(defaultVideoPath);
   const [dirTree, udpateDirTree]: [any, any] = useState([]);
   const [seekToTs, setSeekToTs] = useState(0);
 
   const onSelectPath = async (newPath: string) => {
 
     if(newPath.endsWith(".mp4")){
-      console.log("updating video url", newPath)
-      updateVideoUrl(newPath)
+      updateVideoPath(newPath)
     } else {
-      console.log("updating tree", newPath)
       const res = await fetchDirectoryTree(newPath);
+
+      // todo: add if() check if res is appropriate place to call fs on
+      // this might be the source of an error in recursive searching (like crash when reaches .Trash)
       udpateDirTree(res);
     }
   }
@@ -33,15 +39,15 @@ export default function App() {
   return (
     <div className="App">
 
-      <h1 className="text-4xl">Player</h1>
+      <h1 className="text-4xl">File Explorer and Player</h1>
 
-      <FileBrowser
+      <FileExplorer
         dirTree={dirTree}
         onSelectPath={(chosenPath: string) => onSelectPath(chosenPath)}
       />
 
-      <Player
-        url={videoUrl}
+      <FilePlayer
+        videoPath={videoPath}
         seekToTs={seekToTs}
       />
 
@@ -49,19 +55,17 @@ export default function App() {
         <input
           className="border-2 border-black"
           value={url}
-          onChange={(e: any) => updateUrl(e.target.value)}
+          onChange={event => updateUrl(event.target.value)}
         />
         <input className="form-button" type="submit"/>
       </form>
       
-      {/* input for timestamp to seek to */}
       <input
           type="number"
           className="border-2 border-black"
           value={seekToTs}
-          onChange={(e: any) => setSeekToTs(e.target.value)}
+          onChange={(event:any) => setSeekToTs(event.target.value)}
         />
-
 
     </div>
   )
