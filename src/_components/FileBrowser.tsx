@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 type TFileBrowser = { dirTree: any, onSelectPath: any }
 
+// todo: merge all regex formatting stuff into api/get-directories on server 
+// todo: add react-query
 
 export default function FileBrowser({ dirTree, onSelectPath }: TFileBrowser) {
 
