@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import BrowserPage from './BrowserPage'
+import FilePlayerPage from './FilePlayerPage'
 import CanvasPage from '@/_components/CanvasPage'
 import TimelinePage from '@/Timeline/Timeline'
 // import TimelineEditorTest from '@/TimelineEditorTest'
 
-const videoPath = "/Users/ari/Desktop/oClip/council_2023-03-23/VIDEO/NYCC-PV-250-14_230323-103916.mp4"
+const DEFAULT_VIDEO_PATH = import.meta.env.VITE_DEFAULT_VIDEO_PATH;
+const DEFAULT_DIR_PATH = import.meta.env.VITE_DEFAULT_DIR_PATH;
 
 export default function App() {
   return (
@@ -13,11 +14,15 @@ export default function App() {
 
       <Routes>
 
-        <Route path="/" element={<BrowserPage/>} />
+        <Route path="/" element={<FilePlayerPage 
+          // todo: REPLACE these props with a in-route call to react-query
+          defaultDirPath={DEFAULT_DIR_PATH}
+          defaultVideoPath={DEFAULT_VIDEO_PATH}
+        />} />
         
-        <Route path="/canvas" element={<CanvasPage videoPath={videoPath} />}  />
+        <Route path="/canvas" element={<CanvasPage videoPath={DEFAULT_VIDEO_PATH} />}  />
 
-        <Route path="timeline" element={<TimelinePage videoPath={videoPath} />} />
+        <Route path="timeline" element={<TimelinePage videoPath={DEFAULT_VIDEO_PATH} />} />
 
         {/* <Route path="timeline-editor" element={<TimelineEditorTest />} /> */}
 
