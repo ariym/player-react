@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import FilePlayerPage from './FilePlayerPage'
 import CanvasPage from '@/_components/CanvasPage'
+import QueryPlayer from '@/_components/QueryPlayer'
 import TimelinePage from '@/Timeline/Timeline'
 // import TimelineEditorTest from '@/TimelineEditorTest'
 
@@ -23,6 +24,8 @@ export default function App() {
         <Route path="/canvas" element={<CanvasPage videoPath={DEFAULT_VIDEO_PATH} />}  />
 
         <Route path="timeline" element={<TimelinePage videoPath={DEFAULT_VIDEO_PATH} />} />
+
+        <Route path="query-player" element={<QueryPlayer videoPath={DEFAULT_VIDEO_PATH} />} />
 
         {/* <Route path="timeline-editor" element={<TimelineEditorTest />} /> */}
 
