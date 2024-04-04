@@ -1,72 +1,63 @@
-import { useState } from 'react'
-
-import { fetchDirectoryTree } from './api'
-
-// components
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Input } from '@/_components/ui/input'
 import FileExplorer from '@/_components/FileExplorer'
 import FilePlayer from '@/_components/FilePlayer'
+import BookmarkBar from '@/_components/BookmarkBar'
 
-export type BrowserPage = {
+export type StreamFFmpegPage = {
   defaultDirPath?: string
   defaultVideoPath?: string
 };
 
-export default function FilePlayerPage({ defaultDirPath="/", defaultVideoPath }: BrowserPage) {
+export default function StreamFFmpegPage({ defaultDirPath = "/", defaultVideoPath }: StreamFFmpegPage) {
 
-  const [url, updateUrl] = useState(defaultDirPath);
   const [videoPath, updateVideoPath] = useState(defaultVideoPath);
-  const [dirTree, udpateDirTree]: [any, any] = useState([]);
   const [seekToTs, setSeekToTs] = useState(0);
+  const [url, updateUrl] = useState(defaultDirPath);
+  const [urlParams, setUrlParams]: any = useSearchParams()
 
   const onSelectPath = async (newPath: string) => {
+    // updates URL param
+    setUrlParams({ url: newPath });
 
-    if(newPath.endsWith(".mp4")){
-      updateVideoPath(newPath)
-    } else {
-      const res = await fetchDirectoryTree(newPath);
-
-      // todo: add if() check if res is appropriate place to call fs on
-      // this might be the source of an error in recursive searching (like crash when reaches .Trash)
-      udpateDirTree(res);
-    }
+    // video PLAYER link
+    updateVideoPath(newPath);
   }
 
-  const handleSubmit = (e:any) =>{
-    e.preventDefault();
-    onSelectPath(url)
-  }
+
+  useEffect(() => {
+    const urlParam = urlParams.get('url');
+    // load player on first page load
+    updateVideoPath(urlParam);
+    // move fileexplorer
+    updateUrl(urlParam);
+  }, [urlParams]);
+
 
   return (
-    <div className="App">
+    <div className='flex justify-center '>
+      <div className="max-w-xl">
 
-      <h1 className="text-4xl">File Explorer and Player</h1>
+        <h1 className="text-4xl">File Explorer & Player</h1>
 
-      <FileExplorer
-        dirTree={dirTree}
-        onSelectPath={(chosenPath: string) => onSelectPath(chosenPath)}
-      />
-
-      <FilePlayer
-        videoPath={videoPath}
-        seekToTs={seekToTs}
-      />
-
-      <form onSubmit={handleSubmit}>
-        <input
-          className="border-2 border-black"
-          value={url}
-          onChange={event => updateUrl(event.target.value)}
+        <FilePlayer
+          videoPath={videoPath}
+          seekToTs={seekToTs}
         />
-        <input className="form-button" type="submit"/>
-      </form>
-      
-      <input
+
+        <Input
+          className='mt-5'
           type="number"
-          className="border-2 border-black"
           value={seekToTs}
-          onChange={(event:any) => setSeekToTs(event.target.value)}
+          onChange={(event: any) => setSeekToTs(event.target.value)}
         />
 
+        <FileExplorer
+          onSelectVideo={(chosenPath: string) => onSelectPath(chosenPath)}
+          chosenPath={url}
+        />
+      </div>
     </div>
   )
 }

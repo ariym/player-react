@@ -11,7 +11,10 @@ const DEFAULT_VIDEO_PATH = import.meta.env.VITE_DEFAULT_VIDEO_PATH;
 const DEFAULT_DIR_PATH = import.meta.env.VITE_DEFAULT_DIR_PATH;
 
 let routes = {
-  "/": <StreamFFmpeg />,
+  "/": <StreamFFmpeg
+    defaultDirPath={DEFAULT_DIR_PATH}
+    defaultVideoPath={DEFAULT_VIDEO_PATH}
+  />,
   "canvas": <CanvasPage videoPath={DEFAULT_VIDEO_PATH} />,
   "query-player": <QueryPlayer videoPath={DEFAULT_VIDEO_PATH} />,
   "file-player": <FilePlayerPage
@@ -23,20 +26,18 @@ let routes = {
 
 export default function App() {
   return (
+
     <BrowserRouter basename="/">
-
       <Routes>
-
         {
           Object.entries(routes).map(
 
-            ([key, value]) => <Route path={key} element={value} />
+            ([key, value]) => <Route path={key} element={value} key={"route_" + key} />
 
           )
         }
-
       </Routes>
-
     </BrowserRouter>
+
   );
 }
