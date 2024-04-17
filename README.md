@@ -20,8 +20,20 @@ Also, I think it's in a config file maybe ```components.json```. Also find + rep
 
 ### Environment Variables
 
-1. Instantiate new env file ```cp env_template .env```
-1. Prefix every variable with ```VITE_``` inside env file and when importing.
+1. Inside of project root run:
+    - ```cp env.template .env.development.local```
+    - ```cp env.template .env.production.local```
+1. Prefix every variable with ```VITE_``` (```VITE_SOMETHING=xxx```)
 1. Import with ```import.meta.env.VITE_SOMETHING```
 
 [Vite Documentation](https://vitejs.dev/guide/env-and-mode.html#env-files) on env files.
+
+#### Enviroment MODE
+
+Instead of ```NODE_ENV```, use ```import.meta.env.MODE``` by passing ```vite --mode MODE``` at startup.
+
+**Note to *AVOID*** passing ```NODE_ENV=``` at startup which can get confusing as [documented here](https://vitejs.dev/guide/env-and-mode#node-env-and-modes).
+
+---
+
+This project was originally cloned from [ariym/base-vite-react](https://github.com/ariym/base-vite-react).

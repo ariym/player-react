@@ -1,32 +1,30 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import fs from 'fs';
 
-let httpsConfig = null;
-if (process.env.NODE_ENV === 'production') {
-  const key = fs.readFileSync('./cert/localhost.decrypted.key');
-  const cert = fs.readFileSync('./cert/localhost.crt');
-  
-  httpsConfig = {
-    key,
-    cert
-  }
-}
+
+const httpsConfig = (keyPath: string, certPath: string) => ({
+  key: fs.readFileSync(keyPath),
+  cert: fs.readFileSync(certPath)
+})
 
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src")
+export default ({ mode }) => {
+
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return defineConfig({
+    plugins: [react()],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src")
+      },
     },
-  },
-  // optimizeDeps: {
-  // exclude: ['js-big-decimal']
-  // }
-  server: {
-    https: httpsConfig
-  }
-});
+    server: {
+      https: mode === "production" ? httpsConfig(env.VITE_KEY_PATH, env.VITE_CERT_PATH) : null
+    }
+  });
+
+}
