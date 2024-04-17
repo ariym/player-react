@@ -3,12 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FilePlayerPage from './FilePlayerPage'
 import CanvasPage from '@/_components/CanvasPage'
 import QueryPlayer from '@/_components/QueryPlayer'
-import TimelinePage from '@/Timeline/Timeline'
 import StreamFFmpeg from '@/StreamFFmpeg'
-// import TimelineEditorTest from '@/TimelineEditorTest'
+import TimelinePage from '@/Timeline/Timeline'
+
 
 const DEFAULT_VIDEO_PATH = import.meta.env.VITE_DEFAULT_VIDEO_PATH;
 const DEFAULT_DIR_PATH = import.meta.env.VITE_DEFAULT_DIR_PATH;
+
 
 let routes = {
   "/": <StreamFFmpeg
@@ -23,6 +24,7 @@ let routes = {
     defaultVideoPath={DEFAULT_VIDEO_PATH}
   />,
 }
+
 
 export default function App() {
   return (
