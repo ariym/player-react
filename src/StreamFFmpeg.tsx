@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { Input } from '@/_components/ui/input'
 import FileExplorer from '@/_components/FileExplorer'
 import FilePlayer from '@/_components/FilePlayer'
+import AppHeader from '@/_components/Header'
 import BookmarkBar from '@/_components/BookmarkBar'
 
 export type StreamFFmpegPage = {
@@ -39,7 +40,7 @@ export default function StreamFFmpegPage({ defaultDirPath = "/", defaultVideoPat
     <div className='flex justify-center '>
       <div className="max-w-xl">
 
-        <h1 className="text-4xl">File Explorer & Player</h1>
+        <AppHeader />
 
         <FilePlayer
           videoPath={videoPath}

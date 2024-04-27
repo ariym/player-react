@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { Input } from '@/_components/ui/input'
 import FileExplorer from '@/_components/FileExplorer'
 import FilePlayer from '@/_components/FilePlayer'
+import AppHeader from '@/_components/Header'
 import BookmarkBar from '@/_components/BookmarkBar'
 
 // COPIED from StreamFFmpeg
@@ -41,7 +42,7 @@ export default function FilePlayerPage({ defaultDirPath = "/", defaultVideoPath 
     <div className='flex justify-center '>
       <div className="max-w-xl">
 
-        <h1 className="text-4xl">File Explorer & Player</h1>
+        <AppHeader />
 
         <FilePlayer
           videoPath={videoPath}
