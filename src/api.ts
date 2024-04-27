@@ -20,15 +20,20 @@ export async function streamVideoFile(videoPath: string) {
       'Content-Type': 'video/mp4',
       'Range': 'bytes=0-'
     }
-  }).then(raw => {
-    console.log("file returned", raw)
-    return raw.body;
-  })
-  .catch(error => {
-    throw error;
-  })
+  }).then(raw => {return raw.body})
+  .catch(error => {throw error})
 }
 
+export async function streamVideoFileV3(videoPath: string) {
+  return await fetch(`${BASE_URL}/streamV3?videoPath=${encodeURI(videoPath)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'video/mp4',
+      'Range': 'bytes=0-'
+    }
+  }).then(raw => {return raw.body})
+  .catch(error => {throw error})
+}
 
 export async function fetchDirectoryTree(dirPath: string): Promise<string[]> {
   return await fetch(`${BASE_URL}/get-directories`, {
