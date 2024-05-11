@@ -24,7 +24,7 @@ export async function streamVideoFile(videoPath: string) {
   .catch(error => {throw error})
 }
 
-export async function streamVideoFileV3(videoPath: string) {
+export async function streamVideoFileV3(videoPath: string): Promise<ReadableStream<Uint8Array> | null> {
   return await fetch(`${BASE_URL}/streamV3?videoPath=${encodeURI(videoPath)}`, {
     method: 'GET',
     headers: {
