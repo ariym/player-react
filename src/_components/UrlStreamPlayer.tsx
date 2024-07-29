@@ -1,22 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { BASE_URL } from '@/api'
+import { useSearchParams } from 'react-router-dom'
 
-type FilePlayer = { 
-  videoPath?: string,
-  seekToTs?: number
+type UrlStreamPlayer = { 
+  // videoPath?: string,
+  // seekToTs?: number
 }
 
-export default function FilePlayer({ videoPath, seekToTs }: FilePlayer) {
+export default function UrlStreamPlayer({}: UrlStreamPlayer) {
   const ref: any = useRef(null);
-  const [URL, updateURLParams]: any = useState(null);
-
-  // seeking - LOCAL
-  useEffect(() => {
-    if(Number(seekToTs) < 0){
-      ref.current.seekTo(seekToTs)
-    }
-  }, [seekToTs]);
+  const [URL, updateURL]: any = useState(null);
+  
+  const [URLParams, updateURLParams] = useSearchParams();
+  const videoPath = URLParams.get("videoID");
 
   useEffect(()=>{
 
@@ -24,10 +21,8 @@ export default function FilePlayer({ videoPath, seekToTs }: FilePlayer) {
 
     let resourceURL = `${BASE_URL}/streamV2?videoPath=${encodeURI(videoPath)}`;
 
-    if(Number(seekToTs) < 0) resourceURL += `&start=${seekToTs}`;
-
-    updateURLParams(resourceURL);
-  }, [videoPath, seekToTs]);
+    updateURL(resourceURL);
+  }, [videoPath]);
 
   return (
     <ReactPlayer
