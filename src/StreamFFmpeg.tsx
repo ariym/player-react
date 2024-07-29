@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Input } from '@/_components/ui/input'
 import FileExplorer from '@/_components/FileExplorer'
-import FilePlayer from '@/_components/FilePlayer'
+import UrlStreamPlayer from '@/_components/UrlStreamPlayer'
 import AppHeader from '@/_components/Header'
 import BookmarkBar from '@/_components/BookmarkBar'
 
@@ -42,9 +42,9 @@ export default function StreamFFmpegPage({ defaultDirPath = "/", defaultVideoPat
 
         <AppHeader />
 
-        <FilePlayer
-          videoPath={videoPath}
-          seekToTs={seekToTs}
+        <UrlStreamPlayer
+          // videoPath={videoPath}
+          // seekToTs={seekToTs}
         />
 
         <Input

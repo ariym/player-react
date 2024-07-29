@@ -1,24 +1,19 @@
-import { useEffect, useState } from 'react'
-import { Input } from './ui/input';
-import { Button } from '@/_components/ui/button'
-import { ChevronDownIcon, PlayIcon } from '@radix-ui/react-icons'
+import { useEffect, useState } from 'react';
+import { ChevronDownIcon, PlayIcon } from '@radix-ui/react-icons';
 import { fetchDirectoryTree } from '@/api';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { TDir } from '@/types';
 
 export type TFileExplorer = {
-  onSelect?: any,
   onSelectVideo?: any,
   chosenPath?: string
 };
 
-// todo: fix confusing naming between
-// onSelect
-// onSelectPath
-// onSubmitPath
 
 // todo: merge all regex formatting stuff into api/get-directories on server 
 // todo: add react-query
 export default function FileExplorer({
-  onSelect,
   chosenPath = "/",
   onSelectVideo
 }: TFileExplorer) {
@@ -35,39 +30,38 @@ export default function FileExplorer({
     // If TRUE setPath (triggers file explorer)
     setUrl(event.target.value);
   }
-
-  useEffect(() => {
-    onSubmitPath(chosenPath)
-  }, [chosenPath]);
   
-  // clicking a dirTree click
-  const onSubmitPath = (newUrl: string) => {
+
+  const onSubmitPath = (newUrl: TDir) => {
     // locally select and display directory
-    onSelectPath(newUrl);
-    // parent select to play video
-    onSelect ? onSelect(newUrl) : console.log("no onSelect prop for FileExplorer");
-    // update url for <FilePathBar />
-    setUrl(newUrl);
+    if(newUrl.isDir){
+      fetchAndUpdateDirTree(newUrl.location)
+    } else {
+      onSelectVideo(newUrl.location);
+    }
+
+    // lastly, update url for <FilePathBar />
+    setUrl(newUrl.location);
   }
 
-  // differ between user looking at video or subfolder
-  const onSelectPath = async (newPath: string) => {
-    // TODO: THIS IF STATEMENT IS NOT USEFUL REPLACE OR REMOVE!!!!!!
-    if (!newPath.endsWith(".mp4")) {
-      const res = await fetchDirectoryTree(newPath);
-
-      // todo: add if() check if res is appropriate place to call fs on
-      // this might be the source of an error in recursive searching (like crash when reaches .Trash)
-      udpateDirTree(res);
-      console.log("it's a dir path", newPath);
-    } else {
-      console.log("it's a video", newPath);
-      onSelectVideo(newPath);
-    }
+  const fetchAndUpdateDirTree = async (pth: string) => {
+    const res = await fetchDirectoryTree(pth);
+    udpateDirTree(res);
   }
 
   useEffect(() => {
+    // take prop.chosenPath and get full object from hashmap of {path: TDir}
 
+    onSubmitPath();
+  }, [chosenPath]);
+
+  // this is way too massive
+  useEffect(() => {
+    
+    // create hashmap {path: TDir}
+
+
+    // do we even need to be checking this?
     if (typeof dirTree.location === "string") {
 
       // remove everything BEFORE final slash in string /path/to/something -> /path/to
@@ -92,7 +86,7 @@ export default function FileExplorer({
 
     if (dirTree.contents && dirTree.contents.length > 0) {
   
-      const items = dirTree.contents.map((item: any, i: number) => {
+      const items = dirTree.contents.map((item: TDir, i: number) => {
         
         let classNames = '';
 
@@ -101,7 +95,7 @@ export default function FileExplorer({
 
         const iconStyles = 'mr-2 h-4 w-4';
         
-        return <li key={"dirTree_" + i}><Button variant="link" className={classNames} onClick={() => onSubmitPath(item.location)}>{item.isDir ? <ChevronDownIcon className={iconStyles} /> : <PlayIcon className={iconStyles} />} {item.name}</Button></li>
+        return <li key={"dirTree_" + i}><Button variant="link" className={classNames} onClick={() => onSubmitPath(item)}>{item.isDir ? <ChevronDownIcon className={iconStyles} /> : <PlayIcon className={iconStyles} />} {item.name}</Button></li>
       });
 
       setTreeItems(items);
@@ -122,7 +116,7 @@ export default function FileExplorer({
       <Button
         variant="link"
         className="align-center my-1 font-extrabold"
-        onClick={() => onSubmitPath(parentDir.location)}
+        onClick={() => onSubmitPath(parentDir)}
       >Up Directory: {parentDir.name}</Button>
 
       <ul>{TreeItems}</ul>
