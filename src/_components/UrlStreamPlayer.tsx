@@ -13,7 +13,7 @@ export default function UrlStreamPlayer({}: UrlStreamPlayer) {
   const [URL, updateURL]: any = useState(null);
   
   const [URLParams, updateURLParams] = useSearchParams();
-  const videoPath = URLParams.get("videoID");
+  const videoPath = URLParams.get("video");
 
   useEffect(()=>{
 
@@ -26,7 +26,6 @@ export default function UrlStreamPlayer({}: UrlStreamPlayer) {
 
   return (
     <ReactPlayer
-      // className="py-2"
       url={URL ? URL : null}
       // config={reactPlayerConfig}
       controls={true}

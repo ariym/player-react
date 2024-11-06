@@ -6,8 +6,8 @@ import YouTubeTestPlayer from "@/_components/YouTubeTestPlayer";
 
 let routes = {
   "/": <HomePage />,
-  "/folder": <FolderPage />,
-  "/file-player": <UrlStreamPlayer />,
+  "folder": <FolderPage />,
+  "file-player": <UrlStreamPlayer />,
   "youtube-test": <YouTubeTestPlayer />
 }
 

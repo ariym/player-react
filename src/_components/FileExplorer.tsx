@@ -20,7 +20,7 @@ export default function FileExplorer({
 
   const [dirTree, udpateDirTree]: [any, any] = useState([]);
   const [TreeItems, setTreeItems] = useState([]);
-  const [parentDir, setParentDir] = useState({ name: "none", location: "none" });
+  const [parentDir, setParentDir] = useState({ name: "none", location: "none", isDir: true });
 
   const [url, setUrl] = useState(chosenPath);
 
@@ -49,11 +49,6 @@ export default function FileExplorer({
     udpateDirTree(res);
   }
 
-  useEffect(() => {
-    // take prop.chosenPath and get full object from hashmap of {path: TDir}
-
-    onSubmitPath();
-  }, [chosenPath]);
 
   // this is way too massive
   useEffect(() => {
