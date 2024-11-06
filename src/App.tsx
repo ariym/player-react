@@ -2,11 +2,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from '@/HomePage'
 import FolderPage from '@/FolderPage'
 import UrlStreamPlayer from "@/_components/UrlStreamPlayer";
+import YouTubeTestPlayer from "@/_components/YouTubeTestPlayer";
 
 let routes = {
   "/": <HomePage />,
   "/folder": <FolderPage />,
-  "/file-player": <UrlStreamPlayer />
+  "/file-player": <UrlStreamPlayer />,
+  "youtube-test": <YouTubeTestPlayer />
 }
 
 export default function App() {
