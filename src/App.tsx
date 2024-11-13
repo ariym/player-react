@@ -1,8 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UrlStreamPlayer from "@/_components/UrlStreamPlayer";
+import MpdPlayer from "./_components/MpdPlayer";
 
 let routes = {
-  "/": <UrlStreamPlayer />,
+  // "/": <UrlStreamPlayer />,
+  "/": <MpdPlayer />,
 }
 
 export default function App() {
