@@ -16,7 +16,7 @@ export default function FilePlayer() {
 
     if(!videoPath) return;
 
-    let resourceURL = `${BASE_URL}/streamV2?videoPath=${encodeURI(videoPath)}`;
+    let resourceURL = `${BASE_URL}/stream-local-file?videoPath=${encodeURI(videoPath)}`;
 
     updateURL(resourceURL);
   }, [videoPath]);
