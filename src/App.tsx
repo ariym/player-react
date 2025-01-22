@@ -1,12 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UrlStreamPlayer from "@/_components/UrlStreamPlayer";
 import ClipPlayer from "@/_components/ClipPlayer";
-import MpdPlayer from "./_components/MpdPlayer";
 import HlsPlayer from "./_components/HlsPlayer";
 
 let routes = {
-  "/": <UrlStreamPlayer />,
-  "/file-player": <UrlStreamPlayer />,
+  "/": <p>choose a route</p>,
   "/clip-player": <ClipPlayer />,
   "/hls": <HlsPlayer />,
 }
