@@ -1,6 +1,8 @@
 import { useRef } from 'react';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/file';
 import { BASE_URL } from '@/api';
+
+// todo: rename this to m3u8 player
 
 export default function MpdPlayer() {
   const ref: any = useRef(null);
@@ -9,19 +11,11 @@ export default function MpdPlayer() {
     <>
     <ReactPlayer
       // todo: check if URL ending in '.mpd' triggers DASH player
-      url={`${BASE_URL}/file.mpd`}
+      url={`${BASE_URL}/playlist.m3u8`}
       controls={true}
       ref={ref}
-      config={{
-        file:{
-          // forceDASH: true
-        }
-      }}
-      onError={event => {
-        console.log("Error event");
-        console.log(event)
-      }}
-    />
+      onError={console.log}
+      config={{ forceHLS: true }}/>
     </>
   )
 }
