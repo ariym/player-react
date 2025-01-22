@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ClipPlayer from "@/_components/ClipPlayer";
-import HlsPlayer from "./_components/HlsPlayer";
 
-let routes = {
+import FilePlayer from "@/_components/FilePlayer";
+import ClipPlayer from "@/_components/ClipPlayer";
+
+const routes = {
   "/": <p>choose a route</p>,
+  "/file-player": <FilePlayer />,
   "/clip-player": <ClipPlayer />,
-  "/hls": <HlsPlayer />,
 }
 
 export default function App() {
